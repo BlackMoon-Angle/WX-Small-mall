@@ -22,4 +22,12 @@
       </swiper-item>
     </swiper>
   </view>
+  <!-- 导航条 -->
+  <view class="index_cate">
+    <navigator wx:for="{{cateList}}" wx:key="name">
+      <image src="{{item.image_src}}" mode="widthFix">
+        
+      </image>
+    </navigator>
+  </view>
 </view>
