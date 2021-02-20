@@ -1,0 +1,18 @@
+/**app.wxss**/
+@import "./styles/iconfont.wxss";
+
+/* 微信小程序不支持 通配符——* */
+page,view,text,swiper,swiper-item,image,navigator{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+
+}
+/* 主题颜色——设置变量 */
+page{
+  /* 主题颜色 */
+  --themeColor:#eb4450;
+
+  /* 统一字体大小，1px = 2rpx */
+  font-size: 28rpx;
+}
