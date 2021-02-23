@@ -16,61 +16,25 @@ Page({
     this.getCateList()
     this.getfloorList()
   },
-  // 发送异步请求——获取 轮播图 数据 
-  getSwiperList(){
-    request({
-      url: 'https://api-hmugo-web.itheima.net/api/public/v1/home/swiperdata'
-    }).then(result => {
-        this.setData({
-          swiperList:result.data.message
-        })
+  // 发送异步请求——获取 轮播图 数据
+  async getSwiperList(){
+    const res = await request({ url: '/home/swiperdata' })
+    this.setData({
+      swiperList: res.data.message
     })
   },
-  // 发送异步请求——获取 导航 数据 
-  getCateList(){
-    request({
-      url: 'https://api-hmugo-web.itheima.net/api/public/v1/home/catitems'
-    }).then(result => {
-        this.setData({
-          cateList:result.data.message
-        })
+  // 发送异步请求——获取 导航 数据
+  async getCateList(){
+    const res = await request({ url: '/home/catitems' })
+    this.setData({
+      cateList: res.data.message
     })
   },
-  getfloorList(){
-    request({
-      url: 'https://api-hmugo-web.itheima.net/api/public/v1/home/floordata'
-    }).then(result => {
-        this.setData({
-          floorList:result.data.message
-        })
+  // 发送异步请求——获取 楼层 数据
+  async getfloorList(){
+    const res = await request({ url: '/home/floordata' })
+    this.setData({
+      floorList: res.data.message
     })
-  },
-  onReady: function(){
-    
-  },
-  onShow: function(){
-    
-  },
-  onHide: function(){
-
-  },
-  onUnload: function(){
-
-  },
-  onPullDownRefresh: function(){
-
-  },
-  onReachBottom: function(){
-
-  },
-  onShareAppMessage: function(){
-
-  },
-  onPageScroll: function(){
-
-  },
-  //item(index,pagePath,text)
-  onTabItemTap:function(item){
-
   }
 });
