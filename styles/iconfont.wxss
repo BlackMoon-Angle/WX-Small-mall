@@ -15,11 +15,11 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
-  .icon-shoucang1:before {
+  .icon-shoucang:before {
     content: "\e602";
   }
   
-  .icon-tubiao114:before {
+  .icon-tubiao:before {
     content: "\e635";
   }
   
