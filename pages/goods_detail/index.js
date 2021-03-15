@@ -57,6 +57,7 @@ Page({
     if(index === -1){
       // 不存在商品，第一次添加
       this.GoodsInfo.num = 1
+      this.GoodsInfo.checked = true
       cart.push(this.GoodsInfo)
     } else {
       // 存在商品，增加商品数量
