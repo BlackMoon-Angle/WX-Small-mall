@@ -53,7 +53,7 @@ export const showModal = (content) => {
     });
   })
 }
-// 删除商品弹窗提示
+// 结算按钮提示
 export const showToast = (title) => {
   return new Promise((resolve, reject) => {
     wx.showToast({
@@ -66,5 +66,33 @@ export const showToast = (title) => {
         reject(err)
       }
     })
+  })
+}
+// 授权页获取用户登录信息
+export const login = () => {
+  return new Promise((resolve, reject) => {
+    wx.login({
+      timeout:10000,
+      success: (result)=>{
+        resolve(result)
+      },
+      fail: (err)=>{
+        reject(err)
+      }
+    });
+  })
+}
+// 支付
+export const requestPayment = (pay) => {
+  return new Promise((resolve, reject) => {
+    wx.requestPayment({
+      ...pay,
+      success: (result)=>{
+        resolve(result)
+      },
+      fail: (err)=>{
+        reject(err)
+      }
+    });
   })
 }
