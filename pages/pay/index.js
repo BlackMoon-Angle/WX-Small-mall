@@ -53,8 +53,6 @@ Page({
         return
       }
       // 创建订单
-      // 请求头参数
-      const header = { Authorization: token }
       // 请求体参数
       const order_price = this.data.totalPrice
       // 收货地址
@@ -72,15 +70,13 @@ Page({
       const { data } = await request({
         url: '/my/orders/create',
         method: 'post',
-        data: orderParams,
-        header
+        data: orderParams
       })
       const order_number = data.message.order_number
       // 发起 预支付 请求
       const res = await request({
         url: '/my/orders/req_unifiedorder',
         method: 'post',
-        header,
         data: { order_number }
       })
       // 发起微信支付
@@ -89,7 +85,6 @@ Page({
       const res_pay = await request({
         url: '/my/orders/chkOrder',
         method: 'post',
-        header,
         data: { order_number }
       })
       await showToast('支付成功')
