@@ -41,6 +41,9 @@ page {
 .goods_name_row .goods_collect .icon-shoucang {
   color: gray;
 }
+.goods_name_row .goods_collect .icon-tubiao {
+  color: orangered;
+}
 .goods_info .goods_info_title {
   font-size: 32rpx;
   color: red;

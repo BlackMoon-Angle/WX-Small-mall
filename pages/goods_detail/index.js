@@ -7,7 +7,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    goodsObj:{}
+    goodsObj:{},
+    isCollect: false // 商品是否被收藏
   },
   // 商品对象
   GoodsInfo: {},
@@ -15,7 +16,10 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onShow: function () {
+    let pages = getCurrentPages();
+    let currentPage = pages[pages.length - 1]
+    let options = currentPage.options
     const { goods_id } = options
     this.getGoodsDetail(goods_id)
   },
@@ -23,6 +27,10 @@ Page({
   async getGoodsDetail(goods_id){
     const res = await request({ url: '/goods/detail', data: { goods_id } })
     this.GoodsInfo = res.data.message
+    // 获取缓存中的商品收藏数组
+    let collect = wx.getStorageSync('collect') || [];
+    // 判断当前商品是否被收藏
+    let isCollect = collect.some(v => v.goods_id === this.GoodsInfo.goods_id)
     this.setData({
       // 优化动态渲染，去掉请求回来数据中不需要的子数据，仅提出需要数据
       goodsObj: {
@@ -33,7 +41,8 @@ Page({
         // .webp => .jpg
         goods_introduce: res.data.message.goods_introduce.replace(/\.webp/g, '.jpg'),
         pics: res.data.message.pics
-      }
+      },
+      isCollect
     })
   },
   // 点击轮播图，预览大图
@@ -71,5 +80,39 @@ Page({
       icon: 'success',
       mask: true // 防止用户反复点击按钮
     });
+  },
+  // 点击商品收藏
+  handleCollect() {
+    let isCollect = false
+    // 获取缓存中的商品收藏数组
+    let collect = wx.getStorageSync('collect') || [];
+    // 判断该商品是否被收藏过
+    let index = collect.findIndex(v => v.goods_id === this.GoodsInfo.goods_id)
+    // 当 index != -1 ，说明已经收藏了
+    if(index !== -1) {
+      // 找到 已经收藏的商品，在数组中进行删除
+      collect.splice(index, 1)
+      isCollect = false
+      wx.showToast({
+        title: '取消收藏！',
+        icon: 'success',
+        mask: true
+      });
+    } else {
+      // 没有收藏的情况
+      collect.push(this.GoodsInfo)
+      isCollect = true
+      wx.showToast({
+        title: '收藏成功！',
+        icon: 'success',
+        mask: true
+      });
+    }
+    // 把数组存入缓存中
+    wx.setStorageSync('collect', collect);
+    // 修改 data 中 isCollect 的属性
+    this.setData({
+      isCollect
+    })
   }
 })
