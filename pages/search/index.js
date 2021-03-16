@@ -1,66 +1,55 @@
 // pages/search/index.js
+import { request } from "../../request/index.js"
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    searchGoods: [],
+    isFocus: false, // 取消按钮是否显示
+    inputValue: ''
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
+  // 输入框改变触发的事件
+  handleInput(e) {
+    // 获取输入框的值
+    const { value } = e.detail
+    // 检测合法性
+    if (!value.trim()) {
+      // 搜索框为空时，清空搜索列表
+      this.setData({
+        searchGoods: [],
+        isFocus: false
+      })
+      return
+    }
+    // 显示 取消 按钮
+    this.setData({
+      isFocus: true
+    })
+    // 设置防抖
+    clearTimeout(TimeId)
+    let TimeId = setTimeout(() => {
+      // 发送请求
+      this.searchInfo(value)
+    }, 1000)
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  // 发送请求，获取搜索的数据
+  async searchInfo(query) {
+    const { data: { message } } = await request({
+      url: '/goods/qsearch',
+      data: { query }
+    })
+    this.setData({
+      searchGoods: message
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  // 点击取消按钮，清空搜索框和搜索列表
+  handleCancel() {
+    this.setData({
+      inputValue: '',
+      isFocus: false,
+      searchGoods: []
+    })
   }
 })
