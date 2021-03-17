@@ -40,7 +40,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.QueryParams.cid = options.cid
+    this.QueryParams.cid = options.cid || ''
+    this.QueryParams.query = options.query || ''
     this.getGoodsList()
   },
   // 滚动条触底事件（固定）
